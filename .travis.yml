@@ -1,0 +1,15 @@
+language: go
+
+go:
+    - 1.2
+    - 1.3
+    - tip
+
+install: make updatedeps
+script:
+    - make test
+    #- go test -race ./...
+
+matrix:
+    allow_failures:
+        - go: tip
