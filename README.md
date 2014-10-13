@@ -5,21 +5,46 @@ Cloudstack](http://cloudstack.apache.org/). It supports both
 bootstrapping a OS installation to a empty block device as well as
 extending existing templates.
 
-The diagram below shows how to perform a full OS installation (Red Hat
-derivate) via PXE chainloading onto an empty block device.
-
-![Cloudstack automation](http://i.imgur.com/1au503V.png)
-
-The special chain boot iPXE ISO needs to be built from with an
-embedded script, see [Embedding script in iPXE](http://ipxe.org/embed)
-for more details on how to built the ISO. The script which you need to
-embed is the following:
+To install this plugin you will need to have Go installed as well as
+the needed version control tools for the dependencies. Here we assume
+a Red Hat derivate, please adjust to your native OS package manager
+(e.g. apt-get or brew).
 
 ```
+export GOPATH=$HOME/go
+mkdir -p $GOPATH
+export PATH=$PATH:$GOPATH/bin
+sudo yum install hg git bzr -y
+go get github.com/mitchellh/gox
+go get github.com/klarna/packer-cloudstack
+make -C $GOPATH/src/github.com/klarna/packer-cloudstack dev
+which packer-builder-cloudstack
+```
+
+The diagram below shows how to perform a full OS installation (Red Hat
+derivate) via PXE chainloading onto an empty block
+device. ![Cloudstack automation](http://i.imgur.com/1au503V.png) The
+special chain boot iPXE ISO needs to be built from with an embedded
+script, [Embedding script in iPXE](http://ipxe.org/embed). The
+following snippet should be enough to generate the chainloader ISO
+from scratch:
+
+```
+sudo yum install -y genisoimage
+wget http://ftp.sunet.se/pub/os/Linux/distributions/centos/6.5/os/x86_64/isolinux/isolinux.bin
+git clone git://git.ipxe.org/ipxe.git
+cd ipxe/src
+cat << EOF > chainload.ipxe
 #!pxe
 dhcp
-chain http://${dhcp-server}/latest/userdata
+chain http://\${dhcp-server}/latest/userdata
+EOF
+make EMBED=chainload.ipxe
 ```
+
+The resulting bin/ipxe.iso file needs to be uploaded to your
+Cloudstack instance. The resulting UUID will need be used inside the
+Packer JSON configuration files.
 
 ## Packer configuration example
 
@@ -27,6 +52,9 @@ The JSON payload below will utilize the special iPXE ISO as well as
 spin up a local web server on the Packer build workstation. This web
 server will then serve the neccessary files to perform the full OS
 installation.
+
+Currently there is no support for using display names of service
+offerings, zones, etc. So one needs to add the UUID here.
 
 ```
 {
