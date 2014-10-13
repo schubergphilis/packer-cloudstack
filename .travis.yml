@@ -8,7 +8,6 @@ go:
 install: make updatedeps
 script:
     - make test
-    #- go test -race ./...
 
 matrix:
     allow_failures:
