@@ -35,16 +35,18 @@ wget http://ftp.sunet.se/pub/os/Linux/distributions/centos/6.5/os/x86_64/isolinu
 git clone git://git.ipxe.org/ipxe.git
 cd ipxe/src
 cat << EOF > chainload.ipxe
-#!pxe
+#!ipxe
 dhcp
-chain http://\${dhcp-server}/latest/userdata
+sleep 10
+chain http://\${dhcp-server}/latest/user-data
 EOF
 make EMBED=chainload.ipxe
 ```
 
 The resulting bin/ipxe.iso file needs to be uploaded to your
-Cloudstack instance. The resulting UUID will need be used inside the
-Packer JSON configuration files.
+Cloudstack instance. Specify ```Other (32-bit)``` as the OS type for
+the ISO. Also note the resulting UUID as you will need be use this
+inside the Packer JSON configuration files.
 
 ## Packer configuration example
 
