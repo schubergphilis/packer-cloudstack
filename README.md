@@ -40,7 +40,7 @@ dhcp
 sleep 10
 chain http://\${dhcp-server}/latest/user-data
 EOF
-make EMBED=chainload.ipxe
+make ISOLINUX_BIN=isolinux.bin EMBED=chainload.ipxe
 ```
 
 The resulting bin/ipxe.iso file needs to be uploaded to your
