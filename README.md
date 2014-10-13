@@ -10,26 +10,24 @@ the needed version control tools for the dependencies. Here we assume
 a Red Hat derivate, please adjust to your native OS package manager
 (e.g. apt-get or brew).
 
-```
+```bash
 export GOPATH=$HOME/go
 mkdir -p $GOPATH
 export PATH=$PATH:$GOPATH/bin
 sudo yum install hg git bzr -y
-go get github.com/mitchellh/gox
-go get github.com/klarna/packer-cloudstack
-make -C $GOPATH/src/github.com/klarna/packer-cloudstack dev
-which packer-builder-cloudstack
+go get -u github.com/mitchellh/gox
+go get -u github.com/klarna/packer-cloudstack
+make -C $GOPATH/src/github.com/klarna/packer-cloudstack updatedeps dev
 ```
 
 The diagram below shows how to perform a full OS installation (Red Hat
 derivate) via PXE chainloading onto an empty block
 device. ![Cloudstack automation](http://i.imgur.com/1au503V.png) The
-special chain boot iPXE ISO needs to be built from with an embedded
-script, [Embedding script in iPXE](http://ipxe.org/embed). The
-following snippet should be enough to generate the chainloader ISO
-from scratch:
+special chain boot iPXE ISO needs to be built with an embedded script,
+[Embedding script in iPXE](http://ipxe.org/embed). The following
+snippet should be enough to generate the chainloader ISO from scratch:
 
-```
+```bash
 sudo yum install -y genisoimage
 wget http://ftp.sunet.se/pub/os/Linux/distributions/centos/6.5/os/x86_64/isolinux/isolinux.bin
 git clone git://git.ipxe.org/ipxe.git
@@ -56,9 +54,12 @@ server will then serve the neccessary files to perform the full OS
 installation.
 
 Currently there is no support for using display names of service
-offerings, zones, etc. So one needs to add the UUID here.
+offerings, zones, etc. So one needs to add the UUID here. Also note
+that the hypervisor type needs to be specified so update this
+accordingly. This builder has been verified to work with Xenserver and
+Vmware.
 
-```
+```json
 {
   "provisioners": [
     {
@@ -101,17 +102,17 @@ offerings, zones, etc. So one needs to add the UUID here.
 }
 ```
 
-Vmlinuz, initrd and kickstart files are all served form the webserver
+Vmlinuz, initrd and kickstart files are all served from the webserver
 Packer spins up on the local workstation that is also performing the
 API calls to Cloudstack.
 
 To continue the provisioning using Packer we need to add the user
-and/or key we define in the JSON configuration file. An example to do
-this using a CentOS kickstart file is available below. In this example
-we use the known Vagrant SSH key pair. This of course needs to be
-removed after the provisioning has been performed.
+and/or key we define in the JSON configuration file. An example on how
+to do this using a CentOS kickstart file is available below. In this
+example we use the well known Vagrant SSH key pair. This of course
+needs to be removed after the provisioning has been performed.
 
-```
+```bash
 install
 url --url http://ftp.sunet.se/pub/os/Linux/distributions/centos/6/os/x86_64/Packages/
 lang en_US.UTF-8
