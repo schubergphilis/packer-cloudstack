@@ -21,6 +21,13 @@ func (s *stepCreateSSHKeyPair) Run(state multistep.StateBag) multistep.StepActio
 	ui := state.Get("ui").(packer.Ui)
 	c := state.Get("config").(config)
 
+	// If we have a password specified, just continue instead.
+	if c.SSHPassword != "" {
+		state.Put("ssh_private_key", "")
+		state.Put("ssh_key_name", "")
+		return multistep.ActionContinue
+	}
+
 	// If we already have a private key for a pre loaded public
 	// key on the base image we load that instead of creating a
 	// SSH key pair.

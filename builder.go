@@ -40,6 +40,7 @@ type config struct {
 	SSHUsername string `mapstructure:"ssh_username"`
 	SSHPort     uint   `mapstructure:"ssh_port"`
 	SSHKeyPath  string `mapstructure:"ssh_key_path"`
+	SSHPassword string `mapstructure:"ssh_password"`
 
 	// These are unexported since they're set by other fields
 	// being set.
@@ -165,6 +166,7 @@ func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 		"detach_iso_wait":       &b.config.RawDetachISOWait,
 		"ssh_username":          &b.config.SSHUsername,
 		"ssh_key_path":          &b.config.SSHKeyPath,
+		"ssh_password":          &b.config.SSHPassword,
 		"http_directory":        &b.config.HTTPDir,
 		"service_offering_id":   &b.config.ServiceOfferingId,
 		"template_id":           &b.config.TemplateId,
