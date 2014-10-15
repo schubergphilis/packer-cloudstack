@@ -4,7 +4,6 @@ import (
 	"code.google.com/p/go.crypto/ssh"
 	"fmt"
 	"github.com/mitchellh/multistep"
-	commonssh "github.com/mitchellh/packer/common/ssh"
 	packerssh "github.com/mitchellh/packer/communicator/ssh"
 )
 
