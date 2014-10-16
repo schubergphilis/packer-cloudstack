@@ -30,8 +30,19 @@ func (s *stepCreateTemplate) Run(state multistep.StateBag) multistep.StepAction 
 
 	// always use the first volume when creating a template
 	volumeId := response.Listvolumesresponse.Volume[0].ID
-	response2, err := client.CreateTemplate(c.TemplateDisplayText, c.TemplateName,
-		volumeId, c.TemplateOSId)
+	createOpts := &gopherstack.CreateTemplate{
+		Name:                  c.TemplateName,
+		Displaytext:           c.TemplateDisplayText,
+		Volumeid:              volumeId,
+		Ostypeid:              c.TemplateOSId,
+		Isdynamicallyscalable: c.TemplateScalable,
+		Ispublic:              c.TemplatePublic,
+		Isfeatured:            c.TemplateFeatured,
+		Isextractable:         c.TemplateExtractable,
+		Passwordenabled:       c.TemplatePasswordEnabled,
+	}
+
+	response2, err := client.CreateTemplate(createOpts)
 	if err != nil {
 		err := fmt.Errorf("Error creating template: %s", err)
 		state.Put("error", err)
