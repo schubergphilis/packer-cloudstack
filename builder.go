@@ -64,16 +64,15 @@ type config struct {
 
 	// Tell Cloudstack under which name, description to save the
 	// template.
-	TemplateName            string `mapstructure:"template_name"`
-	TemplateDisplayText     string `mapstructure:"template_display_text"`
-	TemplateOSId            string `mapstructure:"template_os_id"`
-	TemplateScalable        bool   `mapstructure:"template_scalable"`
-	TemplatePublic          bool   `mapstructure:"template_public"`
-	TemplateFeatured        bool   `mapstructure:"template_featured"`
-	TemplateExtractable     bool   `mapstructure:"template_extractable"`
-	TemplatePasswordEnabled bool   `mapstructure:"template_password_enabled"`
-
-	TemplateTags map[string]string `mapstructure:"tags"`
+	TemplateName            string            `mapstructure:"template_name"`
+	TemplateDisplayText     string            `mapstructure:"template_display_text"`
+	TemplateOSId            string            `mapstructure:"template_os_id"`
+	TemplateScalable        bool              `mapstructure:"template_scalable"`
+	TemplatePublic          bool              `mapstructure:"template_public"`
+	TemplateFeatured        bool              `mapstructure:"template_featured"`
+	TemplateExtractable     bool              `mapstructure:"template_extractable"`
+	TemplatePasswordEnabled bool              `mapstructure:"template_password_enabled"`
+	TemplateTags            map[string]string `mapstructure:"template_tags"`
 
 	tpl *packer.ConfigTemplate
 }
