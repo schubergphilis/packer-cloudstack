@@ -16,8 +16,8 @@ mkdir -p $GOPATH
 export PATH=$PATH:$GOPATH/bin
 sudo yum install hg git bzr -y
 go get -u github.com/mitchellh/gox
-go get -u github.com/klarna/packer-cloudstack
-make -C $GOPATH/src/github.com/klarna/packer-cloudstack updatedeps dev
+go get -u github.com/mindjiver/packer-cloudstack
+make -C $GOPATH/src/github.com/mindjiver/packer-cloudstack updatedeps dev
 ```
 
 The diagram below shows how to perform a full OS installation (Red Hat
