@@ -38,6 +38,10 @@ func (a *Artifact) String() string {
 		a.templateId, a.templateName)
 }
 
+func (a *Artifact) State(name string) interface{} {
+	return nil
+}
+
 func (a *Artifact) Destroy() error {
 	log.Printf("Delete template: %s", a.templateId)
 	_, err := a.client.DeleteTemplate(a.templateId)
