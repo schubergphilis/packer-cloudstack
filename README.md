@@ -51,13 +51,24 @@ inside the Packer JSON configuration files.
 The JSON payload below will utilize the special iPXE ISO as well as
 spin up a local web server on the Packer build workstation. This web
 server will then serve the neccessary files to perform the full OS
-installation.
+installation. This assume we have exported some environment variables
+for the API end point and the API and secret keys. This will avoid
+having to hard code these values inside the JSON files which normally
+will be stored under version control (e.g. git).
+
+```bash
+export CLOUDSTACK_API_URL="https://cloudstack.local:443/client/api"
+export CLOUDSTACK_API_KEY="AAAAAAAAAAAAAAAAAA"
+export CLOUDSTACK_API_SECRET_KEY="AAAAAAAAAAAAAAAAAA"
+```
 
 Currently there is no support for using display names of service
 offerings, zones, etc. So one needs to add the UUID here. Also note
 that the hypervisor type needs to be specified so update this
 accordingly. This builder has been verified to work with Xenserver and
-Vmware.
+VmWare.
+
+
 
 ```json
 {
