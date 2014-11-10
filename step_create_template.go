@@ -17,7 +17,7 @@ func (s *stepCreateTemplate) Run(state multistep.StateBag) multistep.StepAction 
 	c := state.Get("config").(config)
 	vmid := state.Get("virtual_machine_id").(string)
 	osId := c.TemplateOSId
-	
+
 	ui.Say(fmt.Sprintf("Creating template: %v", c.TemplateName))
 
 	if osId == "" {
@@ -28,8 +28,8 @@ func (s *stepCreateTemplate) Run(state multistep.StateBag) multistep.StepAction 
 			state.Put("error", err)
 			ui.Error(err.Error())
 			return multistep.ActionHalt
-		}		
-		
+		}
+
 		// Check if the guest OS id is defined - if so, use that
 		vmOsId := listVmResponse.Listvirtualmachinesresponse.Virtualmachine[0].Guestosid
 
@@ -48,7 +48,7 @@ func (s *stepCreateTemplate) Run(state multistep.StateBag) multistep.StepAction 
 		state.Put("error", err)
 		ui.Error(err.Error())
 		return multistep.ActionHalt
-	}		
+	}
 
 	// always use the first volume when creating a template
 	volumeId := response.Listvolumesresponse.Volume[0].ID
