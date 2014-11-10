@@ -16,8 +16,30 @@ func (s *stepCreateTemplate) Run(state multistep.StateBag) multistep.StepAction 
 	ui := state.Get("ui").(packer.Ui)
 	c := state.Get("config").(config)
 	vmid := state.Get("virtual_machine_id").(string)
+	osId := c.TemplateOSId
 
 	ui.Say(fmt.Sprintf("Creating template: %v", c.TemplateName))
+
+	if osId == "" {
+		// get the volume id for the system volume for Virtual Machine 'id'
+		listVmResponse, err := client.ListVirtualMachines(vmid)
+		if err != nil {
+			err := fmt.Errorf("Error creating template: %s", err)
+			state.Put("error", err)
+			ui.Error(err.Error())
+			return multistep.ActionHalt
+		}
+
+		// Check if the guest OS id is defined - if so, use that
+		vmOsId := listVmResponse.Listvirtualmachinesresponse.Virtualmachine[0].Guestosid
+
+		if vmOsId != "" {
+			osId = vmOsId
+		} else {
+			// Fall back to default 103 (Other 64-Bit)
+			osId = "103"
+		}
+	}
 
 	// get the volume id for the system volume for Virtual Machine 'id'
 	response, err := client.ListVolumes(vmid)
@@ -34,7 +56,7 @@ func (s *stepCreateTemplate) Run(state multistep.StateBag) multistep.StepAction 
 		Name:                  c.TemplateName,
 		Displaytext:           c.TemplateDisplayText,
 		Volumeid:              volumeId,
-		Ostypeid:              c.TemplateOSId,
+		Ostypeid:              osId,
 		Isdynamicallyscalable: c.TemplateScalable,
 		Ispublic:              c.TemplatePublic,
 		Isfeatured:            c.TemplateFeatured,

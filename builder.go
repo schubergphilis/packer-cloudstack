@@ -129,11 +129,6 @@ func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 		b.config.TemplateDisplayText = "Packer_Generated_Template"
 	}
 
-	if b.config.TemplateOSId == "" {
-		// Default to Other 64 bit OS
-		b.config.TemplateOSId = "103"
-	}
-
 	if b.config.SSHUsername == "" {
 		// Default to "root". You can override this if your
 		// source template has a different user account.
