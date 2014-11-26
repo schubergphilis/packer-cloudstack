@@ -59,7 +59,7 @@ will be stored under version control (e.g. git).
 ```bash
 export CLOUDSTACK_API_URL="https://cloudstack.local:443/client/api"
 export CLOUDSTACK_API_KEY="AAAAAAAAAAAAAAAAAA"
-export CLOUDSTACK_API_SECRET_KEY="AAAAAAAAAAAAAAAAAA"
+export CLOUDSTACK_SECRET_KEY="AAAAAAAAAAAAAAAAAA"
 ```
 
 Currently there is no support for using display names of service
