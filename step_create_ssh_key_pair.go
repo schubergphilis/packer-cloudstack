@@ -36,12 +36,16 @@ func (s *stepCreateSSHKeyPair) Run(state multistep.StateBag) multistep.StepActio
 
 		f, err := os.Open(c.SSHKeyPath)
 		if err != nil {
+			state.Put("error", err)
+			ui.Error(err.Error())
 			return multistep.ActionHalt
 		}
 		defer f.Close()
 
 		keyBytes, err := ioutil.ReadAll(f)
 		if err != nil {
+			state.Put("error", err)
+			ui.Error(err.Error())
 			return multistep.ActionHalt
 		}
 
