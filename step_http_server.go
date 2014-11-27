@@ -41,10 +41,14 @@ func (s *stepHTTPServer) Run(state multistep.StateBag) multistep.StepAction {
 	// Find an IP address for out HTTP server
 	url, err := url.Parse(config.APIURL)
 	if err != nil {
+                state.Put("error", err)
+                ui.Error(err.Error())
 		return multistep.ActionHalt
 	}
 	conn, err := net.Dial("tcp", url.Host)
 	if err != nil {
+                state.Put("error", err)
+                ui.Error(err.Error())
 		return multistep.ActionHalt
 	}
 	httpIP, _, _ := net.SplitHostPort(conn.LocalAddr().String())
