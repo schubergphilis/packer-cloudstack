@@ -5,6 +5,24 @@ Cloudstack](http://cloudstack.apache.org/). It supports both
 bootstrapping a OS installation to a empty block device as well as
 extending existing templates.
 
+## Install the plugin
+
+First at all, you should have already installed [Packer](http://www.packer.io) and have it added to your PATH.
+
+### Docker way
+
+If you have a running Docker, you can build and run the image without having to install anything :
+
+```
+# From the root of the repository
+docker build -t packer-cs-build .
+cd $PACKER_BIN_PATH/
+docker run packer-cs-build > ./packer-cs.tgz
+tar xzf ./packer-cs.tgz && rm -f ./packer-cs.tgz
+```
+
+### Manual way
+
 To install this plugin you will need to have Go installed as well as
 the needed version control tools for the dependencies. Here we assume
 a Red Hat derivate, please adjust to your native OS package manager
@@ -19,6 +37,8 @@ go get -u github.com/mitchellh/gox
 go get -u github.com/mindjiver/packer-cloudstack
 make -C $GOPATH/src/github.com/mindjiver/packer-cloudstack updatedeps dev
 ```
+
+## How it works ?
 
 The diagram below shows how to perform a full OS installation (Red Hat
 derivate) via PXE chainloading onto an empty block
