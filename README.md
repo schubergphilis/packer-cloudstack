@@ -49,9 +49,9 @@ snippet should be enough to generate the chainloader ISO from scratch:
 
 ```bash
 sudo yum install -y genisoimage
-wget http://ftp.sunet.se/pub/os/Linux/distributions/centos/6.5/os/x86_64/isolinux/isolinux.bin
 git clone git://git.ipxe.org/ipxe.git
 cd ipxe/src
+wget http://ftp.sunet.se/pub/os/Linux/distributions/centos/6/os/x86_64/isolinux/isolinux.bin
 cat << EOF > chainload.ipxe
 #!ipxe
 dhcp
