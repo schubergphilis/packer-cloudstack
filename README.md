@@ -34,8 +34,8 @@ mkdir -p $GOPATH
 export PATH=$PATH:$GOPATH/bin
 sudo yum install hg git bzr -y
 go get -u github.com/mitchellh/gox
-go get -u github.com/mindjiver/packer-cloudstack
-make -C $GOPATH/src/github.com/mindjiver/packer-cloudstack updatedeps dev
+go get -u github.com/schubergphilis/packer-cloudstack
+make -C $GOPATH/src/github.com/schubergphilis/packer-cloudstack updatedeps dev
 ```
 
 ## How it works ?

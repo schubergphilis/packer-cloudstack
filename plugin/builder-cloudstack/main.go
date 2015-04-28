@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/mindjiver/packer-cloudstack"
+	"github.com/schubergphilis/packer-cloudstack"
 	"github.com/mitchellh/packer/packer/plugin"
 )
 
